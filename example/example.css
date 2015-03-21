@@ -1,0 +1,18 @@
+body {
+  margin: 40px;
+  padding: 0;
+  font-family: 'Helvetica';
+}
+h1 {
+  margin: 30px 0px;
+}
+pre, textarea {
+  display: block;
+  float: left;
+  width: 49%;
+  height: 300px;
+  margin: 0;
+  margin-right: 1%;
+  font-family: monospace;
+  font-size: 1.1em;
+}
