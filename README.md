@@ -3,6 +3,8 @@
 A [plastiq](https://github.com/featurist/plastiq) component that embeds the
 [ace editor](https://github.com/ajaxorg/ace).
 
+[Demo](http://www.featurist.co.uk/plastiq-ace-editor/)
+
 ## Example
 
 ```JavaScript
@@ -27,7 +29,7 @@ function render(model) {
   );
 }
 
-plastiq.append(document.body, render, { code: 'var x = 123; });
+plastiq.append(document.body, render, { code: 'var x = 123;' });
 ```
 
 ## License
