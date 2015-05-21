@@ -40,7 +40,13 @@ function renderAceEditor(options, element) {
       onadd: function (element) {
         var self = this;
         this.binding = binding;
-        this.text = binding.get();
+        var bindingText = binding.get();
+
+        if (bindingText instanceof Error) {
+          this.text = '';
+        } else {
+          this.text = bindingText;
+        }
 
         var editor = aceify(element, options);
         this.document = editor.getSession().getDocument();
@@ -57,7 +63,7 @@ function renderAceEditor(options, element) {
       },
       onupdate: function (element) {
         var newText = binding.get();
-        if (this.text != newText) {
+        if (!(newText instanceof Error) && this.text != newText) {
           this.text = newText;
           this.settingValue = true;
           try {
