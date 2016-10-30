@@ -2,6 +2,14 @@ var hyperdom = require('hyperdom');
 var h = hyperdom.html;
 var brace = require('brace');
 
+function extend(object, extension) {
+  Object.keys(extension).forEach(function (key) {
+    object[key] = extension[key];
+  });
+
+  return object;
+}
+
 function aceify(element, options) {
   var editor = brace.edit(element);
   var session = editor.getSession();
@@ -15,9 +23,17 @@ function aceify(element, options) {
       setter.call(subject, defaultValue);
     }
   }
+
   option(editor, 'displayIndentGuides', false);
   option(session, 'tabSize', 2);
   option(session, 'useSoftTabs', true);
+
+  var editorOptions = {maxLines: Infinity};
+  if (options.options) {
+    extend(editorOptions, options.options);
+  }
+  editor.setOptions(editorOptions);
+  editor.$blockScrolling = Infinity;
 
   if (options.theme) {
     editor.setTheme("ace/theme/" + options.theme);
@@ -32,50 +48,52 @@ function aceify(element, options) {
   return editor;
 }
 
-function renderAceEditor(options, element) {
-  var binding = hyperdom.binding(options.binding);
-  return h.component(
-    {
-      key: options.key,
-      onadd: function (element) {
-        var self = this;
-        this.binding = binding;
-        var bindingText = binding.get();
+function AceEditor(options) {
+  var binding = typeof options == 'object' && options.hasOwnProperty('binding')? options.binding: [this, 'text'];
+  this._render = typeof options == 'object' && options.hasOwnProperty('render')? options.render: undefined;
+  this.binding = hyperdom.binding(binding);
+  this.options = options || {};
+};
 
-        if (bindingText instanceof Error) {
-          this.text = '';
-        } else {
-          this.text = bindingText;
-        }
+AceEditor.prototype.onadd = function(element) {
+  var self = this;
+  var bindingText = this.binding.get();
 
-        var editor = aceify(element, options);
-        this.document = editor.getSession().getDocument();
-        this.document.setValue(this.text);
+  if (bindingText instanceof Error) {
+    this.text = '';
+  } else {
+    this.text = bindingText;
+  }
 
-        this.document.on('change', function () {
-          if (!self.settingValue) {
-            self.text = self.document.getValue();
-            self.binding.set(self.text);
-          }
-        });
+  var editor = aceify(element, this.options);
+  this.document = editor.getSession().getDocument();
+  this.document.setValue(this.text);
 
-        this.editor = editor;
-      },
-      onupdate: function (element) {
-        var newText = binding.get();
-        if (!(newText instanceof Error) && this.text != newText) {
-          this.text = newText;
-          this.settingValue = true;
-          try {
-            this.document.setValue(this.text);
-          } finally {
-            delete this.settingValue;
-          }
-        }
-      }
-    },
-    element
-  );
-}
+  this.document.on('change', function () {
+    if (!self.settingValue) {
+      self.text = self.document.getValue();
+      self.binding.set(self.text);
+    }
+  });
 
-module.exports = renderAceEditor;
+  this.editor = editor;
+};
+
+AceEditor.prototype.onupdate = function(element) {
+  var newText = this.binding.get(this.text);
+  if (!(newText instanceof Error) && this.text != newText) {
+    this.text = newText;
+    this.settingValue = true;
+    try {
+      this.document.setValue(this.text);
+    } finally {
+      delete this.settingValue;
+    }
+  }
+};
+
+AceEditor.prototype.render = function() {
+  return this._render? this._render(): h('div');
+};
+
+module.exports = AceEditor;
