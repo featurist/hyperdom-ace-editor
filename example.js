@@ -1,6 +1,6 @@
-var plastiq = require('plastiq');
+var hyperdom = require('hyperdom');
 var ace = require('../');
-var h = plastiq.html;
+var h = hyperdom.html;
 
 require('brace/mode/javascript');
 require('brace/theme/monokai');
@@ -19,4 +19,4 @@ function render(model) {
   );
 }
 
-plastiq.append(document.body, render, { code: render.toString() });
+hyperdom.append(document.body, render, { code: render.toString() });
