@@ -1,38 +1,42 @@
 {
-  "name": "plastiq-ace-editor",
+  "name": "hyperdom-ace-editor",
   "version": "1.0.0",
-  "description": "A plastiq component that embeds the ace editor",
+  "description": "A hyperdom component that embeds the ace editor",
   "main": "index.js",
   "scripts": {
     "example": "browserify example/example.js > example/bundle.js"
   },
   "peerDependencies": {
-    "plastiq": ">= 1.9.6",
+    "hyperdom": ">= 0.2.0",
     "brace": ">= 0.5.0"
   },
   "devDependencies": {
-    "browserify": "^9.0.3"
+    "brace": "0.9.0",
+    "browserify": "9.0.3",
+    "hyperdom": "0.2.0"
   },
   "keywords": [
-    "plastiq",
+    "hyperdom",
     "ace",
     "brace"
   ],
   "author": "Josh Chisholm <joshuachisholm@gmail.com>",
-  "contributors": [{
-    "name": "Tim Macfarlane",
-    "email": "timmacfarlane@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Tim Macfarlane",
+      "email": "timmacfarlane@gmail.com"
+    }
+  ],
   "license": "MIT",
   "files": [
     "*.js"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/featurist/plastiq-ace-editor.git"
+    "url": "https://github.com/featurist/hyperdom-ace-editor.git"
   },
   "bugs": {
-    "url": "https://github.com/featurist/plastiq-ace-editor/issues"
+    "url": "https://github.com/featurist/hyperdom-ace-editor/issues"
   },
-  "homepage": "https://github.com/featurist/plastiq-ace-editor"
+  "homepage": "https://github.com/featurist/hyperdom-ace-editor"
 }

@@ -1,5 +1,5 @@
-var plastiq = require('plastiq');
-var h = plastiq.html;
+var hyperdom = require('hyperdom');
+var h = hyperdom.html;
 var brace = require('brace');
 
 function aceify(element, options) {
@@ -33,7 +33,7 @@ function aceify(element, options) {
 }
 
 function renderAceEditor(options, element) {
-  var binding = plastiq.binding(options.binding);
+  var binding = hyperdom.binding(options.binding);
   return h.component(
     {
       key: options.key,

@@ -1,16 +1,16 @@
-# plastiq-ace-editor
+# hyperdom-ace-editor
 
-A [plastiq](https://github.com/featurist/plastiq) component that embeds the
+A [hyperdom](https://github.com/featurist/hyperdom) component that embeds the
 [ace editor](https://github.com/ajaxorg/ace).
 
-[Demo](http://www.featurist.co.uk/plastiq-ace-editor/)
+[Demo](http://www.featurist.co.uk/hyperdom-ace-editor/)
 
 ## Example
 
 ```JavaScript
-var plastiq = require('plastiq');
-var ace = require('plastiq-ace-editor');
-var h = plastiq.html;
+var hyperdom = require('hyperdom');
+var ace = require('hyperdom-ace-editor');
+var h = hyperdom.html;
 
 require('brace/mode/javascript');
 require('brace/theme/monokai');
@@ -29,7 +29,7 @@ function render(model) {
   );
 }
 
-plastiq.append(document.body, render, { code: 'var x = 123;' });
+hyperdom.append(document.body, render, { code: 'var x = 123;' });
 ```
 
 ## License
