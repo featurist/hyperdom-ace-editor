@@ -48,44 +48,45 @@ function aceify(element, options) {
   return editor;
 }
 
-function AceEditor(options) {
-  var binding = typeof options == 'object' && options.hasOwnProperty('binding')? options.binding: [this, 'text'];
-  this._render = typeof options == 'object' && options.hasOwnProperty('render')? options.render: undefined;
-  this.binding = hyperdom.binding(binding);
+function AceEditor(options, children) {
+  this.binding = typeof options == 'object' && options.hasOwnProperty('binding')? options.binding: [this, 'text'];
   this.options = options || {};
-};
+  this.children = children
+}
 
 AceEditor.prototype.onadd = function(element) {
   var self = this;
-  var bindingText = this.binding.get();
+  var binding = hyperdom.binding(this.binding);
+  var bindingText = binding.get();
 
   if (bindingText instanceof Error) {
-    this.text = '';
+    this.value = '';
   } else {
-    this.text = bindingText;
+    this.value = bindingText;
   }
 
   var editor = aceify(element, this.options);
   this.document = editor.getSession().getDocument();
-  this.document.setValue(this.text);
+  this.document.setValue(this.value);
 
-  this.document.on('change', function () {
+  this.document.on('change', hyperdom.refreshify(function () {
     if (!self.settingValue) {
-      self.text = self.document.getValue();
-      self.binding.set(self.text);
+      self.value = self.document.getValue();
+      binding.set(self.value);
     }
-  });
+  }))
 
   this.editor = editor;
 };
 
-AceEditor.prototype.onupdate = function(element) {
-  var newText = this.binding.get(this.text);
-  if (!(newText instanceof Error) && this.text != newText) {
-    this.text = newText;
+AceEditor.prototype.onupdate = function() {
+  var binding = hyperdom.binding(this.binding);
+  var newText = binding.get(this.value);
+  if (!(newText instanceof Error) && this.value != newText) {
+    this.value = newText;
     this.settingValue = true;
     try {
-      this.document.setValue(this.text);
+      this.document.setValue(this.value);
     } finally {
       delete this.settingValue;
     }
@@ -93,7 +94,17 @@ AceEditor.prototype.onupdate = function(element) {
 };
 
 AceEditor.prototype.render = function() {
-  return this._render? this._render(): h('div');
+  if (this.children) {
+    if (this.children instanceof Array) {
+      if (this.children.length >= 1) {
+        return this.children[0]
+      }
+    } else {
+      return this.children
+    }
+  }
+
+  return h('div')
 };
 
 module.exports = AceEditor;

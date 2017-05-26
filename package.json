@@ -7,7 +7,7 @@
     "example": "browserify example/example.js > example/bundle.js"
   },
   "peerDependencies": {
-    "hyperdom": ">= 0.2.0",
+    "hyperdom": ">= 0.6",
     "brace": ">= 0.5.0"
   },
   "devDependencies": {
