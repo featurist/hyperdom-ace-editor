@@ -1,6 +1,6 @@
 {
   "name": "hyperdom-ace-editor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A hyperdom component that embeds the ace editor",
   "main": "index.js",
   "scripts": {
