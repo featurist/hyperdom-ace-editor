@@ -7,29 +7,27 @@ A [hyperdom](https://github.com/featurist/hyperdom) component that embeds the
 
 ## Example
 
-```JavaScript
+```jsx
 var hyperdom = require('hyperdom');
-var ace = require('hyperdom-ace-editor');
-var h = hyperdom.html;
+var AceEditor = require('hyperdom-ace-editor');
 
 require('brace/mode/javascript');
 require('brace/theme/monokai');
 
-function render(model) {
-  return h('.page',
-    ace({
-        binding: [model, 'code'],
-        key: 'editor',
-        theme: 'monokai',
-        mode: 'javascript'
-      },
-      h('pre')
-    ),
-    h('textarea', { binding: [model, 'code'] })
-  );
+class App {
+  constructor () {
+    this.code = 'var x = 123'
+  }
+
+  render () {
+    return <div>
+      <AceEditor theme="monokai" mode="javascript" binding="this.code" />
+      <textarea binding="this.code" />
+    </div>
+  }
 }
 
-hyperdom.append(document.body, render, { code: 'var x = 123;' });
+hyperdom.append(document.body, new App());
 ```
 
 ## License
