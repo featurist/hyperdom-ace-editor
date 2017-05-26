@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "watchify -t [ babelify --presets babel-preset-hyperdom ] example.jsx -dvo bundle.js",
-    "build": "browserify -t [ babelify --presets babel-preset-hyperdom ] example.jsx > bundle.js"
+    "build": "browserify -d -t [ babelify --presets babel-preset-hyperdom ] example.jsx > bundle.js"
   },
   "repository": {
     "type": "git",
