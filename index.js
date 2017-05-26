@@ -49,15 +49,15 @@ function aceify(element, options) {
 }
 
 function AceEditor(options, children) {
-  this.binding = typeof options == 'object' && options.hasOwnProperty('binding')? options.binding: [this, 'text'];
+  var binding = typeof options == 'object' && options.hasOwnProperty('binding')? options.binding: [this, 'text'];
+  this.binding = hyperdom.binding(binding);
   this.options = options || {};
   this.children = children
 }
 
 AceEditor.prototype.onadd = function(element) {
   var self = this;
-  var binding = hyperdom.binding(this.binding);
-  var bindingText = binding.get();
+  var bindingText = this.binding.get();
 
   if (bindingText instanceof Error) {
     this.value = '';
@@ -72,7 +72,7 @@ AceEditor.prototype.onadd = function(element) {
   this.document.on('change', hyperdom.refreshify(function () {
     if (!self.settingValue) {
       self.value = self.document.getValue();
-      binding.set(self.value);
+      self.binding.set(self.value);
     }
   }))
 
@@ -80,8 +80,7 @@ AceEditor.prototype.onadd = function(element) {
 };
 
 AceEditor.prototype.onupdate = function() {
-  var binding = hyperdom.binding(this.binding);
-  var newText = binding.get(this.value);
+  var newText = this.binding.get(this.value);
   if (!(newText instanceof Error) && this.value != newText) {
     this.value = newText;
     this.settingValue = true;
@@ -94,17 +93,7 @@ AceEditor.prototype.onupdate = function() {
 };
 
 AceEditor.prototype.render = function() {
-  if (this.children) {
-    if (this.children instanceof Array) {
-      if (this.children.length >= 1) {
-        return this.children[0]
-      }
-    } else {
-      return this.children
-    }
-  }
-
-  return h('div')
+  return h('div', {id: this.options.id, class: this.options['class']})
 };
 
 module.exports = AceEditor;
