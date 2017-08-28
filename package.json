@@ -6,14 +6,12 @@
   "scripts": {
     "example": "browserify example/example.js > example/bundle.js"
   },
-  "peerDependencies": {
-    "hyperdom": ">= 0.6",
-    "brace": ">= 0.5.0"
+  "dependencies": {
+    "brace": "0.10.0"
   },
   "devDependencies": {
-    "brace": "0.9.0",
     "browserify": "9.0.3",
-    "hyperdom": "0.2.0"
+    "hyperdom": "0.9.0"
   },
   "keywords": [
     "hyperdom",
