@@ -57,7 +57,7 @@ function AceEditor(options, children) {
 
 AceEditor.prototype.onadd = function(element) {
   var self = this;
-  var bindingText = this.binding.get();
+  var bindingText = this.bindingText()
 
   if (bindingText instanceof Error) {
     this.value = '';
@@ -79,8 +79,12 @@ AceEditor.prototype.onadd = function(element) {
   this.editor = editor;
 };
 
+AceEditor.prototype.bindingText = function () {
+  return this.binding.get() || ''
+}
+
 AceEditor.prototype.onupdate = function() {
-  var newText = this.binding.get(this.value);
+  var newText = this.bindingText()
   if (!(newText instanceof Error) && this.value != newText) {
     this.value = newText;
     this.settingValue = true;
